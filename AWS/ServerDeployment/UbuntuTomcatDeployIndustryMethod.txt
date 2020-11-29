@@ -1,0 +1,159 @@
+#Ubuntu Commands for deploying tomcat server Standard Practice
+
+java  install
+
+>sudo ufw allow 8080/tcp     //disable firewall
+
+>sudo apt install openjdk-11-jre-headless    //install java
+ 
+>sudo update-alternatives --config java    //find java path
+
+>/usr/lib/jvm/java-1.11.0-openjdk-amd64    //java path
+
+>nano /etc/profile    //open file and edit it copy paste below code
+
+JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+PATH=$PATH:$HOME/bin:$JAVA_HOME/bin
+export JAVA_HOME
+export PATH
+
+>source /etc/profile
+
+>sudo groupadd tomcat 		//add group tomcat
+
+>sudo useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat       //add user tomcat and tomcat access directory
+
+>cd /tmp  	// change dir to tmp
+
+>wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.40/bin/apache-tomcat-9.0.40.tar.gz   	//download tar.gz file of tomcat
+
+>sudo tar -xf /tmp/apache-tomcat-9.0.40.tar.gz      //unzip tar.gz file
+
+>sudo mv apache-tomcat-9.0.40.tar.gz latest		//rename file to latest
+
+>sudo cp -r ./latest /opt/tomcat/latest/
+
+>cd /opt/tomcat/conf/
+
+> nano tomcat-user.xml         //edit file 
+
+<role rolename="admin-gui"/>
+<role rolename="manager-gui"/>
+<user username="admin" password="admin" roles="admin-gui, manager-gui"/>
+
+>cd ..
+
+>cd ./webapps/manager/META-INF
+
+>nano context.xml
+
+//comment last 4 lines 
+
+-------------------------------------Modify Tomcat User Permission------------------
+>cd /opt
+
+>sudo chgrp -R tomcat /opt/tomcat			//change group to tomcat
+
+>cd tomcat/latest/
+
+>sudo chmod -R g+r conf 				//give group read only permissions
+
+>sudo chmod g+x conf					//give group executable permissions
+
+>sudo chown -R tomcat webapps/ work temp/ logs 		//give ownership permissions to tomcat webapps work temp logs directory
+-------------------------------------------------------------
+
+>sudo nano /etc/systemd/system/tomcat.service		//connect tomcat with operating system using services
+
+[Unit]
+Description=Tomcat 9 servlet container
+After=network.target
+
+[Service]
+Type=forking
+
+User=tomcat
+Group=tomcat
+
+Environment="JAVA_HOME=/usr/lib/jvm/default-java"
+Environment="JAVA_OPTS=-Djava.security.egd=file:///dev/urandom -Djava.awt.headless=true"
+
+Environment="CATALINA_BASE=/opt/tomcat/latest"
+Environment="CATALINA_HOME=/opt/tomcat/latest"
+Environment="CATALINA_PID=/opt/tomcat/latest/temp/tomcat.pid"
+Environment="CATALINA_OPTS= -Xms512M -Xmx1024M -server -XX:+UseParallelGC"
+
+ExecStart=/opt/tomcat/latest/bin/startup.sh
+ExecStop=/opt/tomcat/latest/bin/shutdown.sh
+
+[Install]
+WantedBy=multi-user.target
+
+----------------------------------------------------------------------
+
+>sudo systemctl enable tomcat		//links tomcat with services
+
+>sudo systemctl daemon-reload		//reload tomcat server
+
+>sudo systemctl start tomcat		//start tomcat server
+
+>sudo systemctl status tomcat		//show status of server
+
+>sudo systemctl restart tomcat		//restart tomcat server
+
+
+
+done with tomcat deployment............
+-------------------------------------------------------------
+
+Extra Information
+
+>su root  //switch root user
+
+>sudo passwd  // change password
+
+
+
+o set JAVA_HOME in Linux for all users, we can use /etc/profile or /etc/environment (preferred).
+
+Open /etc/environment in any text editor and add:
+
+>JAVA_HOME=/path/to/java_installation
+
+Please note that /etc/environment is not a script, but a list of assignment expressions (that is why export is not used). 
+This file is read at the time of login.
+
+To set JAVA_HOME using /etc/profile, open the file and add:
+
+>export JAVA_HOME=/path/to/java_installation
+Run the source command to load the variable:
+
+>source /etc/profile
+Now we can check the value of the JAVA_HOME variable:
+
+>echo $JAVA_HOME
+
+--------------------------------------------------------------------------------------------------------
+required if jdk path not set
+
+#JAVAexport 
+JAVA_HOME=/home/aman/installed/jdk1.8.0_171/bin:$PATH
+
+.bash_aliases
+
+----------------------------------------------
+Open ~/.bash_profile in any text editor and add:
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+Save and close the file.
+
+Open a Terminal and run the source command to apply the changes:
+
+source ~/.bash_profile
+Now we can check the value of the JAVA_HOME variable:
+
+echo $JAVA_HOME
+
+not required >nano  /etc/environment
+
+Adinath

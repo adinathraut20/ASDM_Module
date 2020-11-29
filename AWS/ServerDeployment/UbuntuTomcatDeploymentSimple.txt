@@ -1,0 +1,48 @@
+#Ubuntu Tomcat Server Deployment method but not suggest in industries
+
+>sudo apt update	//update your repo and system
+
+>sudo -i		//super user login	
+
+>cd /home/username	//change directory to user
+
+>sudo ufw allow 8080/tcp  	//allow port 8080 for tcp firewall
+
+>sudo apt install openjdk-11-jre-headless  //install jdk 11
+
+>wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.40/bin/apache-tomcat-9.0.40.tar.gz   
+
+>sudo tar -xf apache-tomcat-9.0.40.tar.gz 	//unzip or extract file 
+
+>cd apache-tomcat-9.0.40		//change directory
+
+>cd conf 				//change dir
+
+>nano tomcat-users.xml			//edit file and copy below code in it
+
+<role rolename="admin-gui"/>
+<role rolename="manager-gui"/>
+<user username="admin" password="admin" roles="admin-gui, manager-gui"/>
+
+>cd ..		//go to tomcat main directory
+>cd ..
+>cd ..
+
+>cd ./webapps/manager/META-INF 	//change to dir
+
+>nano context.xml		//edit and comment cookie and value tag
+
+>cd ..
+>cd ..
+
+>chmod +x startup.sh	  //change startup.sh to executable file
+
+>chmod +x shutdown.sh	  //change shutdown.sh to executable file
+
+>bash startup.sh	  //run startup.sh file
+
+
+
+
+
+Adinath 

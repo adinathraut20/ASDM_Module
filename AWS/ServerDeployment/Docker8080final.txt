@@ -1,0 +1,96 @@
+//#######  https://drive.google.com/drive/folders/1fAFp5UBsaDTLi98ck5UjC-lzKc0AkYbJ?usp=sharing
+
+sudo -i
+
+cd /home/ec2-user
+
+########Automation >wget https://adinath.s3.amazonaws.com/autodeploy.sh
+########Automation >wget https://adinath.s3.amazonaws.com/Dockerfile
+
+change the Dockerfile content with .war file and war file link
+
+>bash autodeploy.sh
+
+
+
+Manual Deployment of Tomcat 
+-------------------------------------------------------------------
+
+>yum update
+
+>sudo amazon-linux-extras install docker
+
+>sudo service docker start
+
+>sudo usermod -a -G docker ec2-user
+
+>docker info
+
+>nano Dockerfile 
+
+// paste below code in Dockerfile
+
+--------------------------------------------------------------------------------
+
+FROM ubuntu:18.04
+
+
+# Install Jdk
+RUN apt-get update && \
+    apt-get install -y openjdk-8-jdk && \
+    apt-get install -y ant && \
+    apt-get clean
+RUN java -version
+
+# Install Apache Tomcat
+RUN apt-get install -y  wget && \
+        wget https://downloads.apache.org/tomcat/tomcat-9/v9.0.40/bin/apache-tomcat-9.0.40.tar.gz && \
+                tar -xvzf apache-tomcat-9.0.40.tar.gz
+
+# Chmod permissions
+RUN chmod +x apache-tomcat-9.0.40/bin/startup.sh && \
+        chmod +x apache-tomcat-9.0.40/bin/shutdown.sh
+
+# Creating Contex.xml
+RUN wget https://adinath.s3.amazonaws.com/tomcat-users.xml
+RUN wget https://adinath.s3.amazonaws.com/context.xml
+RUN wget <link for .war>
+
+# Cp command
+RUN cp context.xml apache-tomcat-9.0.40/webapps/manager/META-INF/
+RUN cp tomcat-users.xml apache-tomcat-9.0.40/conf
+RUN cp <file>.war apache-tomcat-9.0.40/webapps
+
+# Test
+RUN cat apache-tomcat-9.0.40/webapps/manager/META-INF/context.xml
+
+RUN ls apache-tomcat-9.0.40/webapps/manager/META-INF/context.xml
+
+CMD ["apache-tomcat-9.0.40/bin/catalina.sh", "run"]
+
+
+
+EXPOSE 8080
+
+--------------------------------------------------------------------------------
+
+docker build -t docktom .
+
+docker images --filter reference=docktom
+
+docker run -t -i -p 8080:8080 docktom
+
+go to url :-   http://<Public IPv4 address>:8080/<projectName>
+
+
+
+===========================================END=========================================================================
+
+>ctrl+c   //to end the server 
+>exit    //logout sudo user
+>exit    //logout ssh login
+
+
+>systemctl start docker
+>systemctl status docker
+>systemctl stop docker

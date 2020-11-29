@@ -1,0 +1,20 @@
+Program:
+ A program is a set of instructions --- -----> executes.
+ A single program can have multiple file.
+
+Software:
+ It is a collection of computer programs and related data that provides the instructions for telling a computer what to do and how to do it.
+ Also, software is a conceptual entity which is a set of computer programs, procedures and associated documentation concerned 
+	with the operation of a data processing system.
+ It is a set of
+ Programs + Procedures + Operating Manuals + Its Documentation
+
+Software Engineering is a collection of techniques, methodologies and tools that help with the production of a 
+high quality software system with a given budget before a given deadline while change occurs.
+
+“Software engineering is the establishment and use of sound engineering principles in order to obtain economically
+software that is reliable and work efficiently on real machines”
+“Software engineering is a systematic approach to development, operation, maintenance and retirement of software”
+
+
+

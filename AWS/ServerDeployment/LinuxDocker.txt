@@ -1,0 +1,76 @@
+https://drive.google.com/file/d/1taIv87CsthoYABVLWmx4XdFtTWcXnBFC/view?usp=sharing
+
+>sudo -i
+
+>cd /home/ec2-user
+
+======================= if S3 specified ==============================
+
+>curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+unzip awscliv2.zip
+
+sudo ./aws/install
+
+>aws s3 cp s3://<buketName>/<fileName>.war ./
+
+(note connection for s3 select instance on dashboard >> click Action >> click Security >> search default >> save)
+=====================================================================
+
+upload .war file through sftp (without s3)
+
+>ls
+
+>yum update
+
+>sudo amazon-linux-extras install docker
+
+>sudo service docker start
+
+>sudo usermod -a -G docker ec2-user
+
+>docker info
+
+>nano Dockerfile 
+
+// paste below code in Dockerfile
+
+FROM tomcat:8.5.60-jdk11-corretto
+
+LABEL maintainer="Adinath"
+
+ADD <fileName>.war /usr/local/tomcat/webapps/
+
+EXPOSE 8080
+
+CMD ["catalina.sh", "run"]
+
+-------------------------------------------------
+ctrl+x
+y
+enter
+---------------------------------------------------------
+
+>docker build -t docktom .
+
+>docker images --filter reference=docktom
+
+>docker run -t -i -p 8080:8080 docktom
+
+go to url :-   http://<Public IPv4 address>:8080/<projectName>
+
+===========================================END=========================================================================
+
+>ctrl+c   //to end the server 
+>exit    //logout sudo user
+>exit    //logout ssh login
+
+
+For further debugugging 
+
+ref link - https://docs.aws.amazon.com/AmazonECS/latest/developerguide/docker-basics.html
+
+>systemctl start docker
+>systemctl status docker
+>systemctl stop docker
+--------------------------------------------------------

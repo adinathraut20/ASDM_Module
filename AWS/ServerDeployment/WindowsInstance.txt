@@ -1,0 +1,86 @@
+Jdk 11.0 link :-  https://drive.google.com/folderview?id=1mj4IItWOOcYgHRbAJaKJ6L_LFoADO5Si
+
+
+
+
+Relational Database
+ RDS > Databases
+Step 1 : Create database
+    standard create 
+    MySQL
+     MySQL version 
+    Free Tier
+
+Username : root
+Password : 
+
+Step 2: CONNECTIVITY
+Advanced connectivity configuration
+    Public access    YES 
+     CREATE DATABASE
+Database
+ Step 3:  Security group 
+Select -
+Inbound rules -edit --
+Add rule :
+MySQL /Aurora
+Custom : anywhere
+Save rules
+
+
+Step 4 : Endpoint & port 
+Copy endpoint
+
+Workbench : new connection 
+Hostname : paste endpoint
+Password:  
+
+
+
+VERIFY project
+Eclipse web project -- war file
+Web-INF
+    DispatcherServlet
+   Localhost: endpoint paste
+    Run on server
+
+Prop key : create
+Then update
+Project - RC - Export- WAR File- save on desktop
+Finish
+
+
+Copy war file from 
+Local to AWS EC2 instance
+-----------------------------------------------------------------------------
+
+web apps
+Method 1: Paste war in webapps file
+Method 2: 
+webapps >> manager >> Meta-INF -RC-edit-
+comment it >>
+<!----cookie processor -001 4lines
+Value 
+ comment-->
+
+Tomcat >> conf >> tomcat-user >> RC-edit-
+Paste it inside - tomcat-users
+<role rolename="manager-gui"/>
+<role rolename="manager-script"/>
+<user username="admin" password="admin" roles="manager-gui, manager-script"/>
+
+Tomcat-bin-cmd-( run )startup.bat (Tomcat server started)
+Go to browser-  localhost:8080
+Tomcat- Manager app-
+Username: admin
+Password: admin
+War file path present in desktop
+C:/
+RC- properties -location path
+Deploy
+
+AWS -dashboard-EC2-Select -
+Security -edit- inbound rule- add rule- custom TCP-Port: 8080- source-anywhere
+Save rules
+
+Instance details - copy IP address :8080

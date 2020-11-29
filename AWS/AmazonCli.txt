@@ -1,0 +1,62 @@
+#Connnect S3 to instance using cli for ubuntu
+
+>sudo apt  install awscli
+
+1) First go to instance dash board 
+2) Select instance
+3) Click Actions button >> security >> ModifyIamRole >> select s3FullAccess
+4) Go to cli
+
+5) $ aws s3 ls awsbuck3000			//list s3 bucket files
+
+   $ aws s3 ls awsbuck3000/file1		//list files of folder1
+
+   $ aws s3 ls s3://awsbuck3000/file1    //copy instance file to s3 file1
+
+   $ aws s3 rm s3://awsbuck3000/index.html   //delete index.html file in bucket
+
+   $ aws s3 mv s3://awsbuck3000/filename s3://awsbuck3000/filenameNew   //change file name
+
+   $ aws s3 cp folder1 s3://mybucket/myfolder --recursive  //copy all files and folders in folder1
+
+   $ aws s3 cp s3://awsbuck30/file1 ./ --recursive
+ 
+-------------------------------------------------------------------------------------------------
+
+#Connnect S3 to instance using cli for linux-amazon-2
+
+>curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+
+unzip awscliv2.zip
+
+sudo ./aws/install
+ 
+1) First go to instance dash board 
+2) Select instance
+3) Click Actions button >> security >> ModifyIamRole >> select s3FullAccess
+4) Go to cli
+
+
+5) $ aws s3 ls awsbuck3000			//list s3 bucket files
+
+   $ aws s3 ls awsbuck3000/file1		//list files of folder1
+
+   $ aws s3 ls s3://awsbuck3000/file1    //copy instance file to s3 file1
+
+   $ aws s3 rm s3://awsbuck3000/index.html   //delete index.html file in bucket
+
+   $ aws s3 mv s3://awsbuck3000/filename s3://awsbuck3000/filenameNew   //change file name
+
+   $ aws s3 cp folder1 s3://mybucket/myfolder --recursive  //copy all files and folders in folder1
+
+   $ aws s3 cp s3://awsbuck30/file1 ./ --recursive
+
+
+----------------------------------------------------------------------------------
+
+
+
+
+
+
+Adinath
